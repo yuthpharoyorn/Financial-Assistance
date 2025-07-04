@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Insights</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2a9d8f;
+            margin-top: 20px;
+        }
+
+        /* Alert Styling */
+        .alert {
+            background-color: #ffcc00;
+            color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .alert .close {
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .financial-health {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* Button Styling */
+        .home-button {
+            display: block;
+            text-align: center;
+            margin: 20px auto;
+            text-decoration: none;
+            font-size: 1.1em;
+            color: #ffffff;
+            background-color: #2a9d8f;
+            padding: 10px 20px;
+            border-radius: 5px;
+            width: fit-content;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .home-button:hover {
+            background-color: #264653;
+            transform: scale(1.05);
+        }
+
+        /* Filter Styling */
+        .filter-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Financial Insights</h1>
+
+    <!-- Filter Dropdown -->
+    <div class="filter-container">
+        <form method="get" action="/insights">
+            <label for="filter">Select Date Range:</label>
+            <select name="filter" id="filter" onchange="this.form.submit()">
+                <option value="last_month" {% if date_filter == 'last_month' %}selected{% endif %}>Last Month</option>
+                <option value="last_3_months" {% if date_filter == 'last_3_months' %}selected{% endif %}>Last 3 Months</option>
+                <option value="all_time" {% if date_filter == 'all_time' %}selected{% endif %}>All Time</option>
+            </select>
+        </form>
+    </div>
+
+    <!-- Financial Health -->
+    <div class="financial-health">
+        <p>Your Financial Health is: <strong>{{ financial_health }}</strong></p>
+    </div>
+
+    <!-- Display the Plotly Chart -->
+    <div id="income-expense-chart">
+        {{ plot_html_income_expense|safe }}
+    </div>
+
+    <!-- Total Income, Expenses, and Savings -->
+    <div>
+        <p><strong>Total Income:</strong> ${{ total_income }}</p>
+        <p><strong>Total Expenses:</strong> ${{ total_expenses }}</p>
+        <p><strong>Savings:</strong> ${{ savings }}</p>
+    </div>
+
+    <!-- Expense by Category -->
+    <div>
+        <h3>Expenses by Category</h3>
+        {{ expense_by_category|safe }}
+    </div>
+
+    <!-- Home Button -->
+    <a href="/" class="home-button">Back to Home</a>
+
+</body>
+</html>

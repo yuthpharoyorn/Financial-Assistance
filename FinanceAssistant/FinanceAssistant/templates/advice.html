@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Advice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #4CAF50;
+            color: white;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .advice, .category-advice {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-left: 5px solid #4CAF50;
+        }
+        h3 {
+            color: #4CAF50;
+        }
+        .prediction, .health-status {
+            padding: 15px;
+            background-color: #e7f7e7;
+            border-radius: 5px;
+        }
+        .category-advice p {
+            font-size: 16px;
+            font-weight: bold;
+            color: #e53935;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button-container button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .button-container button:hover {
+            background-color: #45a049;
+        }
+        .home-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .home-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Financial Advice</h1>
+
+<div class="container">
+    <div class="prediction">
+        <h3>Predicted Expense for the Next 30 Days:</h3>
+        <p>${{ predicted_expense }}</p>
+    </div>
+
+    <!-- Financial Health and Advice -->
+    <div class="health-status">
+        <h3>Your Financial Health for the Last 3 Months:</h3>
+        <p><strong>{{ financial_health_last_three_months }}</strong></p>
+
+        <div class="advice">
+            <p>{{ advice_message }}</p>
+        </div>
+    </div>
+
+    <!-- Most Expensive Category -->
+    <div class="category-advice">
+        <p><strong>Most Expensive Category:</strong> {{ most_expensive_category_name }} - ${{ most_expensive_category_amount }}</p>
+        <p>Pay special attention to this category and try to reduce your spending here.</p>
+    </div>
+
+    <!-- Home Button -->
+    <div class="button-container">
+        <a href="/" class="home-button">Home</a>
+    </div>
+
+</div>
+
+</body>
+</html>

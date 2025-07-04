@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Budget and Bill Manager</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+        h1, h2 {
+            color: #2a9d8f;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: inline-block;
+            width: 150px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, button {
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="text"], input[type="date"], select {
+            width: 220px;
+        }
+        button {
+            background-color: #2a9d8f;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #264653;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 5px;
+            padding: 10px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .home-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin-bottom: 20px;
+            display: inline-block;
+            border-radius: 5px;
+        }
+        .home-button:hover {
+            background-color: #45a049;
+        }
+        .form-header {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #264653;
+        }
+        @media (max-width: 600px) {
+            body {
+                margin: 10px;
+            }
+            form {
+                padding: 10px;
+            }
+            label {
+                width: 100%;
+                text-align: left;
+            }
+            input, select, button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="home-button">Home</a> <!-- Home Button -->
+
+    <h1>Budget and Bill Manager</h1>
+
+    <!-- Set or Update Budget -->
+    <h2>Manage Budget</h2>
+    <form method="POST">
+        <div class="form-header">Set or Update Budget</div>
+        <input type="hidden" name="action" value="set_budget">
+        <label for="category">Category:</label>
+        <select id="category" name="category" onchange="toggleCustomCategory()">
+            <option value="Food">Food</option>
+            <option value="Household">Household</option>
+            <option value="Transportation">Transportation</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Other">Other</option>
+        </select>
+        <input type="text" id="custom_category" name="custom_category" placeholder="Enter custom category" style="display: none;">
+
+        <label for="amount">Amount:</label>
+        <input type="text" name="amount" required>
+
+        <button type="submit">Set or Update Budget</button>
+    </form>
+
+    <!-- Delete Budget -->
+    <form method="POST">
+        <div class="form-header">Delete Budget</div>
+        <input type="hidden" name="action" value="delete_budget">
+        <label for="delete_category">Delete Budget:</label>
+        <select name="delete_category" required>
+            {% for category in submitted_budgets %}
+                <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Delete Budget</button>
+    </form>
+
+    <!-- Manage Bills -->
+    <h2>Manage Bills</h2>
+    <form method="POST">
+        <div class="form-header">Set or Update Bill</div>
+        <input type="hidden" name="action" value="set_bill">
+
+        <label for="bill_name">Bill Name:</label>
+        <input type="text" name="bill_name" required>
+
+        <label for="bill_amount">Amount:</label>
+        <input type="text" name="bill_amount" required>
+
+        <label for="bill_due_date">Due Date:</label>
+        <input type="date" name="bill_due_date" required>
+
+        <button type="submit">Set or Update Bill</button>
+    </form>
+
+    <!-- Delete Bill -->
+    <form method="POST">
+        <div class="form-header">Delete Bill</div>
+        <input type="hidden" name="action" value="delete_bill">
+        <label for="delete_bill_name">Delete Bill:</label>
+        <select name="delete_bill_name" required>
+            {% for bill in submitted_bills %}
+                <option value="{{ bill }}">{{ bill }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Delete Bill</button>
+    </form>
+
+    <!-- Display Submitted Budgets -->
+    <h2>Submitted Budgets</h2>
+    <ul>
+        {% for category, amount in submitted_budgets.items() %}
+            <li><strong>{{ category }}:</strong> ${{ amount }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Display Submitted Bills -->
+    <h2>Submitted Bills</h2>
+    <ul>
+        {% for bill, details in submitted_bills.items() %}
+            <li><strong>{{ bill }}:</strong> ${{ details['amount'] }} (Due: {{ details['due_date'] }})</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
